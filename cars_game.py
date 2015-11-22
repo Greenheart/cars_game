@@ -13,6 +13,58 @@ import csv
 import sys
 gameversion= "b1.5"
 
+#ERRORS
+
+#TODO: Didn't get reward even if mission was completed successfully
+"""
+Working tires: 3/4
+You have an extra tire with you. Use now?
+'1': Use
+'2': Save for later use
+1
+
+Replacing one of the broken tires...
+
+Your car is fixed again and you completed the mission successfuly!
+You earned 818 $!
+
+Press Enter to continue...
+
+
+-=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=-
+                           Evening 3
+-=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=-
+
+             Cash: 1 $    Money in Bank: 1003 $
+"""
+
+
+#2
+
+"""
+You still have 1 broken tire(s).
+You need to fix them in the Garage before the next mission!
+
+Press Enter to continue...
+
+
+-=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=-
+                          Game Over!
+-=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=-
+You can't afford the tires you need to use your car!
+Without a functional car, you will never be able to earn any
+money and pay for new tires!
+
+Press Enter to view the highscores!
+
+Traceback (most recent call last):
+  File "cars_game.py", line 1227, in <module>
+  File "cars_game.py", line 1107, in endgame
+    print("Creating 'hsdb.csv' in the same folder as this game.")
+  File "cars_game.py", line 1132, in highscores
+    session_entry = highscores[-1]
+ValueError: Must have exactly one of create/read/write/append mode and at most one plus
+"""
 #TODO
 #Test mission-events and fix bugs
 
@@ -1106,7 +1158,7 @@ def highscores(datarow):  #Read and write highscores
         print("\nCouldn't find any file with previous highscores.")
         print("Creating 'hsdb.csv' in the same folder as this game.")
 
-        with open("hsdb.csv", "wb") as hs_db:   #Creating new file
+        with open("hsdb.csv", "w") as hs_db:   #Creating new file
             csv_handler = csv.writer(hs_db, delimiter=';', quoting=csv.QUOTE_ALL)
             if hs_type== 2:
                 csv_handler.writerow(datarow)
@@ -1115,19 +1167,20 @@ def highscores(datarow):  #Read and write highscores
 
     if hs_type== 2:
         #Append the data from current session to the last line in file
-        with open("hsdb.csv", "ab") as hs_db:
+        with open("hsdb.csv", "a") as hs_db:
             csv_handler = csv.writer(hs_db, delimiter=';', quoting=csv.QUOTE_NONNUMERIC)
             csv_handler.writerow(datarow)
 
     try:#Read from ('hsdb.csv') --> Store each line in dict --> Store each dict in a list
         highscores = []
-        with open("hsdb.csv", "rb") as hs_db:
+        with open("hsdb.csv", "rt") as hs_db:
             for line in csv.reader(hs_db, delimiter=';', quoting=csv.QUOTE_NONNUMERIC):
-                hs = {'username': line[0][0:16],
-                      'money_banked': int(line[1]),
-                      'gameversion': line[2],
-                      'datetime': line[3]}
-                highscores.append(hs)
+                if line != []:  #quick fix to skip empty lines
+                    hs = {'username': line[0][0:16],
+                          'money_banked': int(line[1]),
+                          'gameversion': line[2],
+                          'datetime': line[3]}
+                    highscores.append(hs)
             if hs_type== 2:
                 session_entry = highscores[-1]
                 session_score = session_entry.get('money_banked')
