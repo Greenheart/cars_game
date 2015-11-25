@@ -430,6 +430,7 @@ mission.""".format(4-car.tires))
                         input("\nPress Enter to continue...")
 
                 else:
+                    player.cash += reward
                     print("\nYour car is fixed again and you completed the mission successfuly!")
                     print("You earned {} $!".format(reward))
                     time.sleep(2)
@@ -1159,7 +1160,7 @@ def highscores(datarow):  #Read and write highscores
         print("Creating 'hsdb.csv' in the same folder as this game.")
 
         with open("hsdb.csv", "w") as hs_db:   #Creating new file
-            csv_handler = csv.writer(hs_db, delimiter=';', quoting=csv.QUOTE_ALL)
+            csv_handler = csv.writer(hs_db, delimiter=';', quoting=csv.QUOTE_ALL, lineterminator='\n')
             if hs_type== 2:
                 csv_handler.writerow(datarow)
             else:
@@ -1168,12 +1169,12 @@ def highscores(datarow):  #Read and write highscores
     if hs_type== 2:
         #Append the data from current session to the last line in file
         with open("hsdb.csv", "a") as hs_db:
-            csv_handler = csv.writer(hs_db, delimiter=';', quoting=csv.QUOTE_NONNUMERIC)
+            csv_handler = csv.writer(hs_db, delimiter=';', quoting=csv.QUOTE_NONNUMERIC, lineterminator='\n')
             csv_handler.writerow(datarow)
 
     try:#Read from ('hsdb.csv') --> Store each line in dict --> Store each dict in a list
         highscores = []
-        with open("hsdb.csv", "rt") as hs_db:
+        with open("hsdb.csv", "r") as hs_db:
             for line in csv.reader(hs_db, delimiter=';', quoting=csv.QUOTE_NONNUMERIC):
                 if line != []:  #quick fix to skip empty lines
                     hs = {'username': line[0][0:16],
@@ -1207,8 +1208,8 @@ def highscores(datarow):  #Read and write highscores
         print("-=-"*21)
         print(' {0:^16s} {1:^8s} {2:^13s} {3:^21s} '.format("Username", "Score", "Version", "Time & Date"))
         print("-=-"*21)
-        for score in sorted_by_scores[:10]:
-            print(' {0:^16s} {2:^8d} {1:^13s} {3:>21s} '.format(*list(score.values())))
+        for entry in sorted_by_scores[:10]:
+            print(' {username:^16s} {money_banked:^8d} {gameversion:^13s} {datetime:>21s} '.format(**entry))
         print("-=-"*21+"\n")
 
         if hs_type== 2:
