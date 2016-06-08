@@ -41,5 +41,5 @@ income?
 
 ### Get Started
 1. Make sure you have Python 3 installed
-2. [Download the game as a .zip](https://github.com/Greenheart/cars_game/archive/master.zip) and extract the files
-3. Open **CMD** or **Terminal** in the project folder and run `python cars_game.py`
+2. `git clone` this repository or [Download the game as a .zip](https://github.com/Greenheart/cars_game/archive/master.zip) and extract the files
+3. Open **CMD** or **Terminal** in the project folder and run `python3 cars_game.py`
