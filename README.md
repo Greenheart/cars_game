@@ -1,4 +1,4 @@
-# cars_game
+# The not so Busy Business
 ## A challenging text strategy game about a taxi/delivery-service.
 
 ### Including great features like:
@@ -8,6 +8,8 @@
 * Character development.
 
 ---
+
+![Screenshot of core gameplay](the-not-so-busy-business.png)
 
 ### Background Story
 
